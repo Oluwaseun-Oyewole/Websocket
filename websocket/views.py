@@ -1,32 +1,29 @@
+import re
+from django.db import connection
 from django.shortcuts import render
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 import json
+import boto3
 from .models import Connection, ChatMessage
+
 
 # Create your views here.
 
-@csrf_exempt
 def test(request):
-    print(request.body)
+    print((request.body.decode('utf-8', )))
     return JsonResponse({"message":"Hello Daud"}, status=200)
-
 
 def _parse_body(body):
    body_unicode = body.decode('utf-8')
    return  json.loads(body_unicode)
 
-# print(_parse_body(body="hello"))
-
 @csrf_exempt
 def connect(request):
-    body = _parse_body(json.loads(request.body))
-    # print(request.body)
-    print(body)
+    body = _parse_body(request.body)
     connection_id = body['connectionId']
-    new_connection = Connection.objects.get(connection_id=connection_id)
-    new_connection.save()
-    print(connection_id)
+    connections = Connection.objects.create(connection_id=connection_id)
+    print(connections)
     return JsonResponse("connect successfully", status=200)
 
 
@@ -34,6 +31,40 @@ def connect(request):
 def disconnect(request):
     body = _parse_body(request.body)
     connection_id = body['connectionId']
-    new_connection = Connection.objects.get(connection_id=connection_id)
-    new_connection.delete()
+    connections = Connection.objects.get(connection_id=connection_id)
+    connections.delete()
     return JsonResponse("disconnect successfully", status=200)
+
+
+# helper function
+def _send_to_connection(connection_id, data):
+    gatewayapi=boto3.client('apigatewaymanagementapi', endpoint_url="https://wuwth46a59.execute-api.us-east-1.amazonaws.com/test",region_name="us-east-1", aws_access_key_id="AKIAWK22EWERWJVUYIGP",aws_secret_access_key="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", )
+    response = gatewayapi.post_to_connection(ConnectionId=connection_id, Data=json.dumps(data).encode('utf-8'))
+    return response
+
+
+def send_message(request):
+    body = _parse_body(request.body)
+    
+    # testing
+    # body = request.body
+    
+    dictionary_body = dict(body)
+    username = dictionary_body['body']['username']
+    timestamp = dictionary_body['body']['timestamp']
+    message = dictionary_body['body']['message']
+    content = ChatMessage.objects.create(username=username, timestamp=timestamp, message=message)
+    connections = Connection.objects.all()
+    messages = {
+        "username":username,
+        "timestamp":timestamp,
+    }
+    data = {"messages":[messages]} 
+    
+    # body = {"username":username, "timestamp":timestamp}
+    # data = {"messages":[body]}
+   
+    for connection in connections:
+        _send_to_connection(connection.connection_id, data)
+    return JsonResponse({"message":"successfully sent"}, status=200)
+    

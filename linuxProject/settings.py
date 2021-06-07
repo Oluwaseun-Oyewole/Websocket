@@ -76,15 +76,15 @@ WSGI_APPLICATION = 'linuxProject.wsgi.application'
 
 DATABASES = {
     'default': {
-        # 'ENGINE': 'django.db.backends.sqlite3',
-        # 'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
         
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'websocket',
-        'USER':'admin',
-        'PASSWORD':'plmokn0908',
-        'HOST':'aws-simplify.cemhpmkut0vz.us-east-1.rds.amazonaws.com',
-        'PORT':'3306'
+        # 'ENGINE': 'django.db.backends.mysql',
+        # 'NAME': 'websocket',
+        # 'USER':'admin',
+        # 'PASSWORD':'plmokn0908',
+        # 'HOST':'aws-simplify.cemhpmkut0vz.us-east-1.rds.amazonaws.com',
+        # 'PORT':'3306'
     }
 }
 
