@@ -7,11 +7,9 @@ import json
 import boto3
 from .models import Connection, ChatMessage
 
-
 # Create your views here.
 
 def test(request):
-    print((request.body.decode('utf-8', )))
     return JsonResponse({"message":"Hello Daud"}, status=200)
 
 def _parse_body(body):
