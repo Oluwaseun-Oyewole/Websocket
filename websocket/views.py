@@ -22,7 +22,7 @@ def connect(request):
     connection_id = body['connectionId']
     connections = Connection.objects.create(connection_id=connection_id)
     print(connections)
-    return JsonResponse("connect successfully", status=200)
+    return JsonResponse("connect successfully", status=200, safe=False)
 
 
 @csrf_exempt
@@ -31,7 +31,7 @@ def disconnect(request):
     connection_id = body['connectionId']
     connections = Connection.objects.get(connection_id=connection_id)
     connections.delete()
-    return JsonResponse("disconnect successfully", status=200)
+    return JsonResponse("disconnect successfully", status=200, safe=False)
 
 
 # helper function
