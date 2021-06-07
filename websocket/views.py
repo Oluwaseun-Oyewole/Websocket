@@ -9,6 +9,7 @@ from .models import Connection, ChatMessage
 
 # Create your views here.
 
+@csrf_exempt
 def test(request):
     return JsonResponse({"message":"Hello Daud"}, status=200)
 
