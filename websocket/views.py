@@ -11,6 +11,8 @@ from .models import Connection, ChatMessage
 
 @csrf_exempt
 def test(request):
+    print("hello")
+    print(request.body.decode("utf-8"))
     return JsonResponse({"message":"Hello Daud"}, status=200)
 
 def _parse_body(body):
