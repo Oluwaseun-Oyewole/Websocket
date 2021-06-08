@@ -47,11 +47,11 @@ def _send_to_connection(connection_id, data):
 @csrf_exempt
 def send_message(request):
     print("send message was successfull")
-    body = request.body
+    body = _parse_body(request.body)
     dictionary_body = dict(body)
-    username = dictionary_body['username']
+    username = dictionary_body['body']['username']
     timestamp = dictionary_body['body']['timestamp']
-    message = dictionary_body['body']['message']
+    message = dictionary_body['body']['content']
     content = ChatMessage.objects.create(username=username, timestamp=timestamp, message=message)
     connections = Connection.objects.all()
     messages = {
@@ -67,3 +67,8 @@ def send_message(request):
         _send_to_connection(connection.connection_id, data)
     return JsonResponse({"message":"successfully sent"}, status=200, safe=False)
     
+    # message_dico = dict(body)
+    # username = message_dico['body']['username']
+    # timestamp = message_dico['body']['timestamp']
+    # message = message_dico['body']['content']
+    # ChatMessage.objects.create(username = username, message = message, timestamp = timestamp)
