@@ -60,15 +60,7 @@ def send_message(request):
     }
     data = {"messages":[messages]} 
     
-    # body = {"username":username, "timestamp":timestamp}
-    # data = {"messages":[body]}
-   
     for connection in connections:
         _send_to_connection(connection.connection_id, data)
     return JsonResponse({"message":"successfully sent"}, status=200, safe=False)
     
-    # message_dico = dict(body)
-    # username = message_dico['body']['username']
-    # timestamp = message_dico['body']['timestamp']
-    # message = message_dico['body']['content']
-    # ChatMessage.objects.create(username = username, message = message, timestamp = timestamp)
