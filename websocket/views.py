@@ -48,10 +48,10 @@ def _send_to_connection(connection_id, data):
 def send_message(request):
     print("send message was successfull")
     body = _parse_body(request.body)
-    dictionary_body = dict(body)
-    username = dictionary_body['body']['username']
-    timestamp = dictionary_body['body']['timestamp']
-    message = dictionary_body['body']['message']
+    # dictionary_body = dict(body)
+    username = body['username']
+    timestamp = body['timestamp']
+    message = body['message']
     content = ChatMessage.objects.create(username=username, timestamp=timestamp, message=message)
     connections = Connection.objects.all()
     messages = {
