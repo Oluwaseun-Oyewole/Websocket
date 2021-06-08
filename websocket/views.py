@@ -39,17 +39,13 @@ def disconnect(request):
 
 # helper function
 def _send_to_connection(connection_id, data):
-    gatewayapi=boto3.client('apigatewaymanagementapi', endpoint_url="https://wuwth46a59.execute-api.us-east-1.amazonaws.com/test",region_name="us-east-1", aws_access_key_id="AKIAWK22EWERWJVUYIGP",aws_secret_access_key="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", )
+    gatewayapi=boto3.client('apigatewaymanagementapi', endpoint_url="https://o4wgsdn9ga.execute-api.us-east-1.amazonaws.com/test",region_name="us-east-1", aws_access_key_id="AKIAWK22EWERWJVUYIGP",aws_secret_access_key="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", )
     response = gatewayapi.post_to_connection(ConnectionId=connection_id, Data=json.dumps(data).encode('utf-8'))
     return response
 
 
 def send_message(request):
     body = _parse_body(request.body)
-    
-    # testing
-    # body = request.body
-    
     dictionary_body = dict(body)
     username = dictionary_body['body']['username']
     timestamp = dictionary_body['body']['timestamp']
@@ -67,5 +63,5 @@ def send_message(request):
    
     for connection in connections:
         _send_to_connection(connection.connection_id, data)
-    return JsonResponse({"message":"successfully sent"}, status=200)
+    return JsonResponse({"message":"successfully sent"}, status=200, safe=False)
     
