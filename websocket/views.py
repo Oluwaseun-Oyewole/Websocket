@@ -22,7 +22,7 @@ def _parse_body(body):
 @csrf_exempt
 def connect(request):
     body = _parse_body(request.body)
-    connection_id = body['connectionId  ']
+    connection_id = body['connectionId']
     connections = Connection.objects.create(connection_id=connection_id)
     print(connections)
     return JsonResponse("connect successfully", status=200, safe=False)
@@ -65,7 +65,7 @@ def send_message(request):
         _send_to_connection(connection.connection_id, data)
     return JsonResponse({"message":"successfully sent"}, status=200, safe=False)
 
-
+@csrf_exempt
 def recent_messages(request):
     body = _parse_body(request.body)
     connectionId = body["connectionId"]
