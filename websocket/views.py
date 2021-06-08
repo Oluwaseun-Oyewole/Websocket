@@ -45,6 +45,7 @@ def _send_to_connection(connection_id, data):
 
 
 def send_message(request):
+    print("send message was successfull")
     body = _parse_body(request.body)
     dictionary_body = dict(body)
     username = dictionary_body['body']['username']
