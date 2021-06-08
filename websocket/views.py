@@ -47,7 +47,7 @@ def _send_to_connection(connection_id, data):
 @csrf_exempt
 def send_message(request):
     print("send message was successfull")
-    body = _parse_body(request.body)
+    body = request.body
     dictionary_body = dict(body)
     username = dictionary_body['username']
     timestamp = dictionary_body['body']['timestamp']
