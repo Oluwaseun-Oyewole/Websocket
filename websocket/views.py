@@ -75,6 +75,7 @@ def recent_messages(request):
         data = {"messages": [
             {"username":msg.username, "messages":msg.messages, "timestamp":msg.timestamp}
         ]}
+        print(data)
         return _send_to_connection(connection_id,data)
     return JsonResponse('successfully sent', status=200, safe=False)
     
