@@ -103,7 +103,7 @@ def send_message(request):
 
 @csrf_exempt
 def recent_messages(request):
-    chat_messages = ChatMessage.objects.all
+    chat_messages = ChatMessage.objects.all()
     connections = Connection.objects.all()
     recent_messages = []
     
