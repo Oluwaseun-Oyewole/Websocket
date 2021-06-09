@@ -91,7 +91,7 @@ def recent_messages(request):
     body = _parse_body(request.body)
     connection = body['connectionId']
     connection_id = Connection.objects.get(connection_id=connection).connection_id
-    recent_messages = []
+    # recent_messages = []
     
     for chat_message in chat_messages:
         username = chat_message.username
@@ -104,6 +104,6 @@ def recent_messages(request):
             "timestamp": timestamp
         }
         recent_messages.append(messages)         
-    data = {"message":recent_messages[::-1]}
+    data = reversed({"message":messages})
     _send_to_connection(connection_id, data)
     return JsonResponse({"messages": "recent_messages"}, status=200)
