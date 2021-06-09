@@ -109,7 +109,7 @@ def recent_messages(request):
     
     for chat_message in chat_messages:
         username = chat_message.username
-        message = chat_message.message
+        message = chat_message.messages
         timestamp = chat_message.timestamp
         
         messages = {
