@@ -66,7 +66,7 @@ def send_message(request):
     return JsonResponse({"message":"successfully sent"}, status=200, safe=False)
 
 
-def recent_message(request):
+def recent_messages(request):
     body = _parse_body(request.body)
     connection = body['connectionId']
     connection_id = Connection.objects.get(connection_id=connection).connection_id
