@@ -51,14 +51,12 @@ def send_message(request):
     print("send message was successfull")
     body = _parse_body(request.body)
     dictionary_body = dict(body)
-    id = dictionary_body['body']['id']
     username = dictionary_body['body']['username']
     timestamp = dictionary_body['body']['timestamp']
     content = dictionary_body['body']['content']
     ChatMessage.objects.create(username=username, timestamp=timestamp, messages=content)
     connections = Connection.objects.all()
     messages = {
-        "id":id,
         "username":username,
         "timestamp":timestamp,
         "messages":content
@@ -99,11 +97,13 @@ def recent_messages(request):
     recent_messages = []
     
     for chat_message in chat_messages:
+        id = chat_message.id
         username = chat_message.username
         message = chat_message.messages
         timestamp = chat_message.timestamp
         
         messages = {
+            id:id,
             "username": username,
             "message": message,
             "timestamp": timestamp
