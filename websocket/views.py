@@ -67,5 +67,34 @@ def send_message(request):
 
 
 def recent_message(request):
-    pass
+    body = _parse_body(request.body)
+    connection = body['connectionId']
+    connection_id = Connection.objects.get(connection_id=connection).connection_id
+    message = reversed(ChatMessage.objects.all())
     
+    for msg in message:
+        data = {"message": [
+            {"username": msg.username,
+             "message":msg.messages,
+             "timestamp":msg.timestamp
+             }
+        ]}       
+        _send_to_connection(connection_id, data)
+    return JsonResponse('successfully sent', status=200, safe=False)
+        
+    
+
+# @csrf_exempt
+# def get_recent_messages(request):
+#     body = _parse_body(request.body)
+#     connectionId = body['connectionId']
+#     connection_id = Connections.objects.get(connection_id=connectionId).connection_id
+#     messages = list(reversed(ChatMessage.objects.all()))
+#     if len(messages) > 5:
+#         data = {'messages':[{'username':chat_message.username, 'message':chat_message.message,
+#         'timestamp':chat_message.timestamp} for chat_message in messages[:5]]}
+#     else:
+#         data = {'messages':[{'username':chat_message.username, 'message':chat_message.message,
+#         'timestamp':chat_message.timestamp} for chat_message in messages]}
+#     _send_to_connection(connection_id, data )
+#     return JsonResponse('successfully sent', status=200, safe=False)
