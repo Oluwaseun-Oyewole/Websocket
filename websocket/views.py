@@ -79,6 +79,7 @@ def send_message(request):
 #         return _send_to_connection(connection_id,data)
 #     return JsonResponse('successfully sent', status=200, safe=False)
 
+@csrf_exempt
 def recent_messages(request):
     body = _parse_body(request.body)
     connection = body['connectionId']
