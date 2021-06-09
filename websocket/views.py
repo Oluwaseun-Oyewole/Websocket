@@ -99,13 +99,11 @@ def recent_messages(request):
     recent_messages = []
     
     for chat_message in chat_messages:
-        id = chat_message.id
         username = chat_message.username
         message = chat_message.messages
         timestamp = chat_message.timestamp
         
         messages = {
-            id:id,
             "username": username,
             "message": message,
             "timestamp": timestamp
