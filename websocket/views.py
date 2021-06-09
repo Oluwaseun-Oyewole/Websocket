@@ -103,7 +103,7 @@ def recent_messages(request):
             "message": message,
             "timestamp": timestamp
         }
-        recent_messages.append(messages)         
+        # recent_messages.append(messages)         
     data = reversed({"message":messages})
     _send_to_connection(connection_id, data)
     return JsonResponse({"messages": "recent_messages"}, status=200)
