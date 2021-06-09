@@ -66,25 +66,25 @@ def send_message(request):
     return JsonResponse({"message":"successfully sent"}, status=200, safe=False)
 
 
-@csrf_exempt
-def recent_messages(request):
-    body = _parse_body(request.body)
-    connection = body['connectionId']
-    connection_id = Connection.objects.get(connection_id=connection).connection_id
-    message = reversed(ChatMessage.objects.all())
+# @csrf_exempt
+# def recent_messages(request):
+#     body = _parse_body(request.body)
+#     connection = body['connectionId']
+#     connection_id = Connection.objects.get(connection_id=connection).connection_id
+#     message = reversed(ChatMessage.objects.all())
     
-    for msg in message:
-        data = {"message": [
-            {"username": msg.username,
-             "message":msg.messages,
-             "timestamp":msg.timestamp
-             }
-        ]}       
-        _send_to_connection(connection_id, data)
-    return JsonResponse('successfully sent', status=200, safe=False)
+#     for msg in message:
+#         data = {"message": [
+#             {"username": msg.username,
+#              "message":msg.messages,
+#              "timestamp":msg.timestamp
+#              }
+#         ]}       
+#         _send_to_connection(connection_id, data)
+#     return JsonResponse('successfully sent', status=200, safe=False)
         
     
-
+    
 # @csrf_exempt
 # def get_recent_messages(request):
 #     body = _parse_body(request.body)
@@ -99,3 +99,26 @@ def recent_messages(request):
 #         'timestamp':chat_message.timestamp} for chat_message in messages]}
 #     _send_to_connection(connection_id, data )
 #     return JsonResponse('successfully sent', status=200, safe=False)
+
+
+@csrf_exempt
+def recent_messages(request):
+    chat_messages = ChatMessage.objects.all
+    connections = Connection.objects.all()
+    recent_messages = []
+    
+    for chat_message in chat_messages:
+        username = chat_message.username
+        message = chat_message.message
+        timestamp = chat_message.timestamp
+        
+        messages = {
+            "username": username,
+            "message": message,
+            "timestamp": timestamp
+        }
+        recent_messages.append(messages)
+    data = {"message":recent_messages[::-1]}
+    for connection in connections:
+        _send_to_connection(connection.connection_id, data)
+    return JsonResponse({"messages": "recent_messages"}, status=200)
