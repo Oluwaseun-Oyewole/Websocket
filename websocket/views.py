@@ -84,7 +84,7 @@ def recent_messages(request):
     body = _parse_body(request.body)
     connection = body['connectionId']
     connection_id = Connection.objects.get(connection_id=connection).connection_id
-    messages = reversed(ChatMessage.objects.all())
+    messages = list(reversed(ChatMessage.objects.all()))
     for msg in messages:
         data = {
             "message":[{"username":msg.username, 'message':msg.messages, 'timestamp':msg.timestamp}]
