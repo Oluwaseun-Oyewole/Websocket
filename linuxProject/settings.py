@@ -27,7 +27,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['54.159.60.175', '*']
 
-
+# {"action":"sendMessage", "username":"Rose","content":"Hello all","timestamp":"4:00 PM"}
 # Application definition
 
 INSTALLED_APPS = [
