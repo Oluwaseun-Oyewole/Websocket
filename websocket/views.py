@@ -103,7 +103,7 @@ def recent_messages(request):
         timestamp = chat_message.timestamp
         
         messages = {
-            id:id,
+            "id":id,
             "username": username,
             "message": message,
             "timestamp": timestamp
