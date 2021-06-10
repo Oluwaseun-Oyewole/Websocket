@@ -41,7 +41,7 @@ def disconnect(request):
 
 # helper function
 def _send_to_connection(connection_id, data):
-    gatewayapi=boto3.client('apigatewaymanagementapi', endpoint_url="https://o4wgsdn9ga.execute-api.us-east-1.amazonaws.com/test",region_name="us-east-1", aws_access_key_id="AKIAWK22EWER2FJ2GIZ2",aws_secret_access_key="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", )
+    gatewayapi=boto3.client('apigatewaymanagementapi', endpoint_url="https://o4wgsdn9ga.execute-api.us-east-1.amazonaws.com/test",region_name="us-east-1", aws_access_key_id="AKIAWK22EWER3OPFMYPZ",aws_secret_access_key="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", )
     response = gatewayapi.post_to_connection(ConnectionId=connection_id, Data=json.dumps(data).encode('utf-8'))
     return response
 
@@ -67,24 +67,6 @@ def send_message(request):
         _send_to_connection(connection.connection_id, data)
     return JsonResponse({"message":"successfully sent"}, status=200, safe=False)
 
-
-# @csrf_exempt
-# def recent_messages(request):
-#     body = _parse_body(request.body)
-#     connection = body['connectionId']
-#     connection_id = Connection.objects.get(connection_id=connection).connection_id
-#     message = reversed(ChatMessage.objects.all())
-    
-#     for msg in message:
-#         data = {"message": [
-#             {"username": msg.username,
-#              "message":msg.messages,
-#              "timestamp":msg.timestamp
-#              }
-#         ]}       
-#         _send_to_connection(connection_id, data)
-#     return JsonResponse('successfully sent', status=200, safe=False)
-        
     
 
 @csrf_exempt
