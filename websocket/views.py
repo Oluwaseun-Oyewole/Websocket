@@ -6,6 +6,7 @@ from django.views.decorators.csrf import csrf_exempt
 import json
 import boto3
 from .models import Connection, ChatMessage
+from django.contrib.auth.models import User
 
 # Create your views here.
 
@@ -49,12 +50,25 @@ def _send_to_connection(connection_id, data):
 @csrf_exempt
 def send_message(request):
     print("send message was successfull")
+
+    # for registered users
+    
+    users = User.objects.all()
+    confirm_username = []
+    for user in users:
+        confirm_username.append(user.username)
+        
     body = _parse_body(request.body)
     dictionary_body = dict(body)
     username = dictionary_body['body']['username']
     timestamp = dictionary_body['body']['timestamp']
     content = dictionary_body['body']['content']
-    ChatMessage.objects.create(username=username, timestamp=timestamp, messages=content)
+    
+    if username in confirm_username:
+         ChatMessage.objects.create(username=username, timestamp=timestamp, messages=content)
+    else:
+        print("Messages can only be sent by registered users")
+        
     connections = Connection.objects.all()
     messages = {
         "username":username,
