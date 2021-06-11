@@ -42,7 +42,7 @@ def disconnect(request):
 
 # helper function
 def _send_to_connection(connection_id, data):
-    gatewayapi=boto3.client('apigatewaymanagementapi', endpoint_url="https://o4wgsdn9ga.execute-api.us-east-1.amazonaws.com/test",region_name="us-east-1", aws_access_key_id="AKIAWK22EWERS3O2HM4S",aws_secret_access_key="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", )
+    gatewayapi=boto3.client('apigatewaymanagementapi', endpoint_url="https://o4wgsdn9ga.execute-api.us-east-1.amazonaws.com/test",region_name="us-east-1", aws_access_key_id="AKIAWK22EWERZVBKDF2Y",aws_secret_access_key="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", )
     response = gatewayapi.post_to_connection(ConnectionId=connection_id, Data=json.dumps(data).encode('utf-8'))
     return response
 
