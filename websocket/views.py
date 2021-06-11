@@ -49,10 +49,8 @@ def _send_to_connection(connection_id, data):
 
 @csrf_exempt
 def send_message(request):
-    print("send message was successfull")
 
-    # for registered users
-    
+    # for registered users    
     users = User.objects.all()
     confirm_username = []
     for user in users:
